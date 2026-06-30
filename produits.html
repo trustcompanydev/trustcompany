@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Produits | TRUSTCOMPANY</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.7;
+            position: relative;
+            min-height: 100vh;
+            background: #f0f2f5;
+        }
+        
+        /* ===== LOGO BACKGROUND WITH BLUR ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('../Images/logo.png');
+            background-repeat: none;
+            background-size: 200px 200px;
+           
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(2px);
+        }
+        
+        a { text-decoration: none; }
+        ul { list-style: none; }
+        .container { width: 100%; max-width: 1300px; margin: auto; padding: 0 20px; }
+        
+        /* ===== VARIABLES ===== */
+        :root {
+            --primary: #d39c2f;
+            --secondary: #1d3557;
+            --dark: #1a1a1a;
+            --white: #ffffff;
+            --gray: #777;
+            --light: #f8f9fa;
+            --border: #ececec;
+            --shadow: 0 10px 30px rgba(0,0,0,.12);
+            --transition: .4s ease;
+        }
+        
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,.08);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 75px;
+            padding: 0 8%;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        .logo span { color: var(--primary); }
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+        .nav-links a {
+            color: #333;
+            font-weight: 600;
+            transition: .3s;
+            font-size: 15px;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a.active { color: var(--primary); }
+        
+        /* ===== HERO PRODUITS ===== */
+        .products-hero {
+            padding: 120px 8% 60px;
+            background: linear-gradient(135deg, rgba(29,53,87,0.92) 0%, rgba(42,74,122,0.92) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .products-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        .products-hero h1 span { color: var(--primary); }
+        .products-hero p {
+            font-size: 18px;
+            opacity: .9;
+            max-width: 700px;
+            margin: auto;
+        }
+        
+        /* ===== CATALOGUE PRODUITS ===== */
+        .catalogue {
+            padding: 60px 8%;
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .catalogue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1300px;
+            margin: auto;
+        }
+        
+        .product-item {
+            background: rgba(255,255,255,.92);
+            backdrop-filter: blur(2px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+            transition: var(--transition);
+            border: 1px solid rgba(211,156,47,.1);
+        }
+        
+        .product-item:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(0,0,0,.15);
+            border-color: var(--primary);
+            background: rgba(255,255,255,.98);
+        }
+        
+        .product-item-image {
+            height: 220px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .product-item:hover .product-item-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-item-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 5px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: white;
+        }
+        
+        .product-item-badge.best-seller { background: #e74c3c; box-shadow: 0 4px 15px rgba(231,76,60,.35); }
+        .product-item-badge.premium { background: #2ecc71; box-shadow: 0 4px 15px rgba(46,204,113,.35); }
+        .product-item-badge.popular { background: #3498db; box-shadow: 0 4px 15px rgba(52,152,219,.35); }
+        .product-item-badge.eco { background: #27ae60; box-shadow: 0 4px 15px rgba(39,174,96,.35); }
+        .product-item-badge.industrial { background: #7f8c8d; box-shadow: 0 4px 15px rgba(127,140,141,.35); }
+        
+        .product-item-body {
+            padding: 25px 25px 30px;
+        }
+        
+        .product-item-body h3 {
+            font-size: 24px;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .product-item-body .description {
+            color: var(--gray);
+            font-size: 15px;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .product-item-body .specs {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding: 12px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .product-item-body .specs .spec {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .product-item-body .specs .spec strong {
+            color: var(--secondary);
+            display: block;
+            font-size: 16px;
+        }
+        
+        .product-item-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        
+        .product-item-price {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+            background: #fef9f0;
+            padding: 10px 16px;
+            border-radius: 40px;
+            border: 1px dashed var(--primary);
+            letter-spacing: 0.3px;
+            text-align: center;
+        }
+        
+        .product-item-price i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        .btn-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-detail {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .btn-detail:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(211,156,47,.35);
+        }
+        
+        .btn-detail i {
+            transition: var(--transition);
+        }
+        
+        .btn-detail:hover i {
+            transform: translateX(4px);
+        }
+        
+        .btn-commander {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #25D366;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .btn-commander:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, .35);
+        }
+        
+        .btn-commander i {
+            font-size: 18px;
+        }
+        
+        /* ===== WHATSAPP ORDER SECTION ===== */
+        .whatsapp-order-section {
+            padding: 50px 8%;
+            background: rgba(255,255,255,.80);
+            backdrop-filter: blur(2px);
+            position: relative;
+            z-index: 1;
+        }
+        .whatsapp-order-container {
+            max-width: 1300px;
+            margin: auto;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 45px 50px;
+            border-radius: 24px;
+            border: 1px solid rgba(211,156,47,0.15);
+        }
+        .whatsapp-order-container .disclaimer {
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        .whatsapp-order-container .disclaimer i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--secondary);
+            color: #e0e0e0;
+            padding: 60px 8% 25px;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-grid {
+            max-width: 1300px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-brand h3 {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 12px;
+        }
+        .footer-brand h3 span { color: var(--primary); }
+        .footer-brand p {
+            font-size: 14px;
+            opacity: .8;
+            max-width: 300px;
+            line-height: 1.8;
+        }
+        .footer-links h4,
+        .footer-social h4 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+        .footer-links ul li { margin-bottom: 10px; }
+        .footer-links ul li a {
+            color: #ccc;
+            font-size: 14px;
+            transition: .3s;
+        }
+        .footer-links ul li a:hover {
+            color: var(--primary);
+            padding-left: 6px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,.08);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: .3s;
+        }
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 13px;
+            color: #aaa;
+            max-width: 1300px;
+            margin: auto;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .catalogue-grid { grid-template-columns: repeat(2, 1fr); }
+            .whatsapp-order-container { padding: 35px 30px; }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 10px; }
+            .nav-links { gap: 18px; flex-wrap: wrap; justify-content: center; }
+            .products-hero { padding: 100px 5% 40px; }
+            .products-hero h1 { font-size: 34px; }
+            .catalogue-grid { grid-template-columns: 1fr; max-width: 450px; margin: auto; }
+            .footer-grid { grid-template-columns: 1fr; gap: 25px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .btn-actions { flex-direction: column; }
+            .btn-detail, .btn-commander { width: 100%; }
+            .product-item-image { height: 180px; }
+            .whatsapp-order-container { padding: 25px 20px; }
+            .btn-whatsapp-order { padding: 14px 30px; font-size: 17px; width: 100%; justify-content: center; }
+        }
+        
+        @media (max-width: 480px) {
+            .product-item-image { height: 160px; }
+            .product-item-body h3 { font-size: 20px; }
+            .product-item-price { font-size: 16px; padding: 8px 14px; }
+            .products-hero h1 { font-size: 28px; }
+            .whatsapp-order-container h2 { font-size: 22px; }
+            .btn-whatsapp-order { font-size: 15px; padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <nav class="navbar">
+        <div class="logo">TRUST<span>COMPANY</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="produits.html" class="active">Produits</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- ===== HERO PRODUITS ===== -->
+<section class="products-hero">
+    <h1>Nos <span>Produits</span></h1>
+    <p>Découvrez notre gamme complète de matériaux de construction premium pour tous vos projets.</p>
+</section>
+
+<!-- ===== CATALOGUE ===== -->
+<section class="catalogue">
+    <div class="catalogue-grid" id="productGrid">
+        
+        <!-- PRODUIT 1 : GRAVIER -->
+        <div class="product-item" data-category="agregats">
+            <div class="product-item-image">
+                <img src="../Images/graviercon.jpg" alt="Gravier">
+                <span class="product-item-badge best-seller">⭐ Meilleure Vente</span>
+            </div>
+            <div class="product-item-body">
+                <h3>Gravier</h3>
+                <p class="description">Granulat concassé de haute qualité pour béton, fondations et travaux de génie civil.</p>
+                <div class="specs">
+                    <div class="spec"><strong>8/16 mm</strong>Granulométrie</div>
+                    <div class="spec"><strong>1.6 t/m³</strong>Densité</div>
+                    <div class="spec"><strong>ISO 9001</strong>Certification</div>
+                </div>
+                <div class="product-item-footer">
+                    <span class="product-item-price"><i class="fas fa-handshake"></i> PRIX EST DISCUTABLE SELON LA LIVRAISON</span>
+                    <div class="btn-actions">
+                        <a href="gravier.html" class="btn-detail">
+                            Voir détails <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://wa.me/25766436174?text=Bonjour%2C%20je%20souhaite%20commander%20du%20Gravier.%0A%0AQuantit%C3%A9%20%3A%20%0ALieu%20de%20livraison%20%3A%20%0ANom%20%3A%20%0AT%C3%A9l%C3%A9phone%20%3A" 
+                           class="btn-commander" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Commander
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUIT 2 : SABLE -->
+        <div class="product-item" data-category="agregats">
+            <div class="product-item-image">
+                <img src="../Images/sable.png" alt="Sable">
+                <span class="product-item-badge premium">🌟 Premium</span>
+            </div>
+            <div class="product-item-body">
+                <h3>Sable</h3>
+                <p class="description">Sable fin lavé pour enduits, mortiers et travaux de finition intérieure et extérieure.</p>
+                <div class="specs">
+                    <div class="spec"><strong>0.2 mm</strong>Module finesse</div>
+                    <div class="spec"><strong>1.5 t/m³</strong>Densité</div>
+                    <div class="spec"><strong>ISO 9001</strong>Certification</div>
+                </div>
+                <div class="product-item-footer">
+                    <span class="product-item-price"><i class="fas fa-handshake"></i> PRIX EST DISCUTABLE SELON LA LIVRAISON</span>
+                    <div class="btn-actions">
+                        <a href="sable.html" class="btn-detail">
+                            Voir détails <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://wa.me/25766436174?text=Bonjour%2C%20je%20souhaite%20commander%20du%20Sable.%0A%0AQuantit%C3%A9%20%3A%20%0ALieu%20de%20livraison%20%3A%20%0ANom%20%3A%20%0AT%C3%A9l%C3%A9phone%20%3A" 
+                           class="btn-commander" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Commander
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUIT 3 : BRIQUE -->
+        <div class="product-item" data-category="maçonnerie">
+            <div class="product-item-image">
+                <img src="../Images/brique.jpg" alt="Brique">
+                <span class="product-item-badge popular">🔥 Populaire</span>
+            </div>
+            <div class="product-item-body">
+                <h3>Brique</h3>
+                <p class="description">Briques en argile haute résistance pour murs porteurs, cloisons et constructions durables.</p>
+                <div class="specs">
+                    <div class="spec"><strong>22x11x6 cm</strong>Dimensions</div>
+                    <div class="spec"><strong>18 MPa</strong>Résistance</div>
+                    <div class="spec"><strong>CE</strong>Certification</div>
+                </div>
+                <div class="product-item-footer">
+                    <span class="product-item-price"><i class="fas fa-handshake"></i> PRIX EST DISCUTABLE SELON LA LIVRAISON</span>
+                    <div class="btn-actions">
+                        <a href="brique.html" class="btn-detail">
+                            Voir détails <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://wa.me/25766436174?text=Bonjour%2C%20je%20souhaite%20commander%20des%20Briques.%0A%0AQuantit%C3%A9%20%3A%20%0ALieu%20de%20livraison%20%3A%20%0ANom%20%3A%20%0AT%C3%A9l%C3%A9phone%20%3A" 
+                           class="btn-commander" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Commander
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUIT 4 : LATÉRITE -->
+        <div class="product-item" data-category="naturel">
+            <div class="product-item-image">
+                <img src="../Images/laterite.jpg" alt="Latérite">
+                <span class="product-item-badge eco">🌿 Éco</span>
+            </div>
+            <div class="product-item-body">
+                <h3>Latérite</h3>
+                <p class="description">Latérite naturelle pour pavage, aménagement paysager et constructions écologiques.</p>
+                <div class="specs">
+                    <div class="spec"><strong>2.5 t/m³</strong>Densité</div>
+                    <div class="spec"><strong>15%</strong>Porosité</div>
+                    <div class="spec"><strong>ISO 14001</strong>Certification</div>
+                </div>
+                <div class="product-item-footer">
+                    <span class="product-item-price"><i class="fas fa-handshake"></i> PRIX EST DISCUTABLE SELON LA LIVRAISON</span>
+                    <div class="btn-actions">
+                        <a href="laterite.html" class="btn-detail">
+                            Voir détails <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://wa.me/25766436174?text=Bonjour%2C%20je%20souhaite%20commander%20de%20la%20Lat%C3%A9rite.%0A%0AQuantit%C3%A9%20%3A%20%0ALieu%20de%20livraison%20%3A%20%0ANom%20%3A%20%0AT%C3%A9l%C3%A9phone%20%3A" 
+                           class="btn-commander" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Commander
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUIT 5 : CARRIÈRE -->
+        <div class="product-item" data-category="industriel">
+            <div class="product-item-image">
+                <img src="../Images/carriere.jpg" alt="Carrière">
+                <span class="product-item-badge industrial">🏭 Industriel</span>
+            </div>
+            <div class="product-item-body">
+                <h3>Carrière</h3>
+                <p class="description">Pierre de carrière pour construction lourde, fondations profondes et travaux publics.</p>
+                <div class="specs">
+                    <div class="spec"><strong>20/40 mm</strong>Granulométrie</div>
+                    <div class="spec"><strong>2.7 t/m³</strong>Densité</div>
+                    <div class="spec"><strong>ISO 9001</strong>Certification</div>
+                </div>
+                <div class="product-item-footer">
+                    <span class="product-item-price"><i class="fas fa-handshake"></i> PRIX EST DISCUTABLE SELON LA LIVRAISON</span>
+                    <div class="btn-actions">
+                        <a href="carrier.html" class="btn-detail">
+                            Voir détails <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://wa.me/25766436174?text=Bonjour%2C%20je%20souhaite%20commander%20de%20la%20Pierre%20de%20carri%C3%A8re.%0A%0AQuantit%C3%A9%20%3A%20%0ALieu%20de%20livraison%20%3A%20%0ANom%20%3A%20%0AT%C3%A9l%C3%A9phone%20%3A" 
+                           class="btn-commander" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Commander
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== WHATSAPP ORDER SECTION ===== -->
+<section class="whatsapp-order-section">
+    <div class="whatsapp-order-container">
+        <p class="disclaimer"><i class="fas fa-clock"></i> Réponse sous 24h • Livraison partout au Burundi</p>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>TRUST<span>COMPANY</span></h3>
+                <p>Matériaux de construction premium pour un avenir durable.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Liens Rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="produits.html">Produits</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Produits</h4>
+                <ul>
+                    <li><a href="gravier.html">Gravier</a></li>
+                    <li><a href="sable.html">Sable</a></li>
+                    <li><a href="brique.html">Brique</a></li>
+                    <li><a href="laterite.html">Latérite</a></li>
+                    <li><a href="carrier.html">Carrière</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Suivez-Nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 TRUSTCOMPANY. Tous droits réservés.</span>
+            <span>Construit avec précision &amp; passion.</span>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
